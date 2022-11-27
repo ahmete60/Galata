@@ -7,9 +7,14 @@
 - git commit -m "branch description"
 
 ### daily work
-- git brach -b newbranchname 
-- git merge "Seed-completion" --squash
-- git commit -m "branch description"
+- git remote add origin <REMOTE_URL>          // Sets the new remote
+- git remote  -v                       // Verifies the new remote URL
+- git brach    // show current branch
+- git brach  -b newbranchname
+- git merge  "Seed-completion"  --squash
+- git commit  -m "branch description"
+- git add  . && git commit  -m "initial commit"       // Stage and commit all the files in your project.
+- git push origin main          // Pushes the changes in your local repository
 
 ## Use ISSUES for job assigning
 - [Github](https://www.github.com) -> main page -> your repository name -> click  _Issues_-> _New Issue_ -> the relevant _Get Started_
