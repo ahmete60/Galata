@@ -14,6 +14,12 @@ jspm_packages/
 
 AWS*.png
 IAM5ahmet_codecommit_credentials.csv
+.zip
+sendgrid.env
+sendgrid.env
+cmd.exe
+
+
 
 # Comment in the public line in if your project uses Gatsby and not Next.js
 # https://nextjs.org/blog/next-9-1#public-directory-support
@@ -22,11 +28,6 @@ IAM5ahmet_codecommit_credentials.csv
 # Nuxt.js build / generate output
 # .nuxt
 # dist
-
-.zip
-sendgrid.env
-sendgrid.env
-cmd.exe
 
 # Logs
 logs
