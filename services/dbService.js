@@ -8,7 +8,9 @@
 /** KeyConditions:: EQ | LE | LT | GE | GT | BEGINS_WITH | BETWEEN
  *  FilterExpression:: EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN
  * 
- *  aws dynamodb query --table-name Buyers --key-condition-expression "CatName=:name and Age= :age" --expression-attribute-values file://expression_attributes.json 
+ *  aws dynamodb list-tables
+ *  aws dynamodb describe-table --table-name Galata_T
+ *  aws dynamodb query --table-name Galata_T --key-condition-expression "CatName=:name and Age= :age" --expression-attribute-values file://expression_attributes.json 
  * 
  *  param options:
  *  var params = { TableName: tableName,  ExpressionAttributeValues: { ':pk': {S: compKey} }, //,    ':sk' : {S: compKey} 
@@ -22,7 +24,7 @@
 const AWS = require("aws-sdk");
 const moment = require("moment");
 const { CustomError } = require("../helpers/error");
-AWS.config.update({ region: "eu-central-1" });
+AWS.config.update({ region: "us-east-2" });
 const dynamoDB = new AWS.DynamoDB();
 ////////// return values for dynamoDB
 if (dynamoDB == undefined) console.log("!!! connect failed !!!")
@@ -39,7 +41,8 @@ const tableAttributeMapping = {
                   { "AttributeName":"sk",   "KeyType":"RANGE",  "AttributeType":"S" },
                   { "GAname":"g1pk",   "GSI":"HASH",  "AttributeType":"S" },
                   { "GAname":"g1sk",   "GSI":"RANGE", "AttributeType":"S" } ,
-                  { "IndexName":"byrGSI-1"},
+                  { "IndexName":"byrGSI-1"}
+                ]
   };
 
 let dbReturned = [];
@@ -68,6 +71,8 @@ const theEmail = "OpAlien@Xgmail.com";
 let dtodaye =  new Date();
 let dtoday =  moment(dtodaye).format("YYYY-MM-DDTHH:MM:SS");
 
+createAllTables() ;
+
 
                                       /** L5 functions */ /** These should be the calls made by the developer. so they should be just an example or used for testing only */
 
@@ -75,7 +80,7 @@ let dtoday =  moment(dtodaye).format("YYYY-MM-DDTHH:MM:SS");
 // *** query O-perator[M]/pack_id[1] or ManyPack_id[M] or A-ll[M] or acti-V-ity or D-ateRange or P-riceRange or T-itle or by W: JCKFN or Janra or CityCountry ***   // or G-roupings: F-avorite or N-ew  are also in JCK
 // always bring back results with d_start >= today
 ///
-packageFindO(theEmail);
+//packageFindO(theEmail);
 
 async function packageFindOO(ope, skv) {let req = {type:"OO", tableName:"theTable", pk:"BYR#"+ope, skv:"ORD#"}; return await packageFind(req)}     // returns many if pr_no is not defined
 async function packageFindOOI(ope, skv) {let req = {type:"OOI1", tableName:"theTable", pk:"B#Ahmet Byr Ertuğrul#", skv:""}; return await packageFind(req)}     // returns many if pr_no is not defined

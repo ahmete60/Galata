@@ -1,0 +1,31 @@
+{
+  "name": "ddbserviceapi",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node local.js",
+    "seedBuyers": "node ./seed/seedBuyers.js",
+    "seedOperators": "node ./seed/seedOperators.js",
+    "//": "*  start: node dist/local.js",
+    "dev": "ts-node-dev local.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --project ./"
+  },
+  "dependencies": {
+    "async": "*.*",
+    "aws-sdk": "*.*",
+    "cors": "^2.8.5",         
+    "debug": "^2.6.9",
+    "dotenv": "^16.0.3",
+    "express": "^4.17.1",
+    "joi": "*.*",     
+    "moment-timezone": "^0.5.31",
+    "nodemailer": "^6.4.16",
+    "serverless-http": "^2.7.0",
+    "axios": "^0.21.1",      
+    "uuid": "^8.3.2"
+    },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
