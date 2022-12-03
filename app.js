@@ -1,17 +1,20 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var async = require('async');
-var expressHbs = require('express-handlebars');
-var expresValid = require('express-validator');
-var session = require('express-session');
-var falsh = require('connect-flash');
-var mongo = require('mongodb');
-var mongoose = require('mongoose');
-var urlMongo = 'mongodb+srv://Amongo:<n6b5v4c3>@cluster0.dvcqn.mongodb.net/<shopping>?retryWrites=true&w=majority:27017/shopping';
-mongoose.connect(urlMongo,{ useNewUrlParser: true });
+var createError           = require('http-errors');
+var express               = require('express');
+var path                  = require('path');
+var cookieParser          = require('cookie-parser');
+var logger                = require('morgan');
+    async                 = require('async');
+var expressHbs            = require('express-handlebars');
+var expresValid           = require('express-validator');
+var session               = require('express-session');
+var falsh                 = require('connect-flash');
+var mongo                 = require('mongodb');
+var mongoose              = require('mongoose');
+var cognitoSrvc           = require('./services/CognitoSrvc.js');
+
+/*
+var urlMongo = env.URL_MONGO;
+mongoose.connect(urlMongo, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.once('open', function() {
   console.log("Db Connected");
@@ -19,10 +22,7 @@ db.once('open', function() {
 db.on('error', function(err) {
   console.log(err);
 });
-
-var regAttrib = [];
-regAttrib.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"nickname",Value:"mad"}));
-regAttrib.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"email",Value:theEmail}));
+*/
 
 var passpost = require('passport');
 var localStrategy = require('passport-local').Strategy;

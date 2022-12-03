@@ -1,26 +1,25 @@
 {
-  "name": "ddbserviceapi",
-  "version": "0.0.1",
+  "name": "galataapp",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
-    "start": "node local.js",
-    "seedBuyers": "node ./seed/seedBuyers.js",
-    "seedOperators": "node ./seed/seedOperators.js",
-    "//": "*  start: node dist/local.js",
-    "dev": "ts-node-dev local.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc --project ./"
+    "start": "node ./bin/www"
   },
   "dependencies": {
+    "amazon-cognito-identity-js": "*",
     "aws-sdk": "*.*",
+    "request": "*",
+    "jwk-to-pem": "2.0.5",
+    "jsonwebtoken": "8.5.1",
+    "node-fetch": "3.3.0",
+
     "cors": "^2.8.5",         
     "dotenv": "^16.0.3",
     "joi": "*.*",     
     "moment-timezone": "^0.5.31",
     "nodemailer": "^6.4.16",
-    "serverless-http": "^2.7.0",
     "axios": "^0.21.1",      
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
 	
     "async": "^3.2.4",
     "bcryptjs": "*",

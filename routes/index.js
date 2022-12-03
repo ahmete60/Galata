@@ -1,10 +1,17 @@
-var express = require('express');
-var router = express.Router();
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+var express               = require('express');
+var router                = express.Router();
+var passport              = require('passport');
+var LocalStrategy         = require('passport-local').Strategy;
+var User                  = require('../models/register');
+var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+var cognitoSrvc           = require('../services/CognitoSrvc.js');
 
-var User = require('../models/register');
 /* GET home page. */
+
+
+var regAttrib = [];
+regAttrib.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"nickname",Value:"mad"}));
+regAttrib.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"email",Value:"theEmail"}));
 
 const redirectTodashboard = (req, res, next) => {
   console.log(req.session);
@@ -19,9 +26,10 @@ router.get('/', redirectTodashboard, function (req, res, next) {
   res.render('index');
 });
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser (function (user, done) {
   done(null, user._id);
-});
+})  
+
 
 passport.deserializeUser(function (id, done) {
   User.getUserById(id, function (err, user) {
@@ -31,12 +39,12 @@ passport.deserializeUser(function (id, done) {
 
 
 router.post('/', passport.authenticate('local', {
-  failureRedirect: '/',
-  failureFlash: true
-}), function (req, res, next) {
-  // console.log("user",req.user);
-  req.flash('success', 'Login Success..');
-  res.redirect('/dashboard');
+    failureRedirect: '/',
+    failureFlash: true
+  }), function (req, res, next) {
+    // console.log("user",req.user);
+    req.flash('success', 'Login Success..');
+    res.redirect('/dashboard');
 });
 
 

@@ -6,7 +6,7 @@ var AWS					  = require('aws-sdk');
 var request				  = require('request');
 var jwkToPem			  = require('jwk-to-pem');
 var jwt					  = require('jsonwebtoken');
-global.fetch			  = require('node-fetch');
+//global fetch			  = require('node-fetch');
 
 /** 
  *  AWS_COGNITO_USER_POOL_ID=ap-southeaYnSpz7Zo
