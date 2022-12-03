@@ -2,16 +2,11 @@ var express               = require('express');
 var router                = express.Router();
 var passport              = require('passport');
 var LocalStrategy         = require('passport-local').Strategy;
-var User                  = require('../models/register');
+//var User                  = require('../models/nufus');
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 var cognitoSrvc           = require('../services/CognitoSrvc.js');
 
 /* GET home page. */
-
-
-var regAttrib = [];
-regAttrib.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"nickname",Value:"mad"}));
-regAttrib.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"email",Value:"theEmail"}));
 
 const redirectTodashboard = (req, res, next) => {
   console.log(req.session);
@@ -26,6 +21,7 @@ router.get('/', redirectTodashboard, function (req, res, next) {
   res.render('index');
 });
 
+/*
 passport.serializeUser (function (user, done) {
   done(null, user._id);
 })  
@@ -36,9 +32,9 @@ passport.deserializeUser(function (id, done) {
     done(err, user);
   });
 });
+*/
 
-
-router.post('/', passport.authenticate('local', {
+router.post('/login', passport.authenticate('local', {
     failureRedirect: '/',
     failureFlash: true
   }), function (req, res, next) {
@@ -47,7 +43,7 @@ router.post('/', passport.authenticate('local', {
     res.redirect('/dashboard');
 });
 
-
+/*
 passport.use(new LocalStrategy(function (username, password, done) {
   User.getUserByUsername(username, function (err, user) {
     if (err) console.log(err);
@@ -69,7 +65,7 @@ passport.use(new LocalStrategy(function (username, password, done) {
     });
   });
 }));
-
+*/
 
 
 module.exports = router;

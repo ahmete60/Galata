@@ -14,7 +14,9 @@
     <div class="custom-container">
         <h1 class="text-center m-4 text-success">Avakado</h1>
         <div class="jumbotron">
-            <h3 class="text-center text-primary">Login Form</h3>
+            <h3 class="text-center text-primary">Check your email and confirm the code that has been sent</h3>
+            <br>
+            <H3>{{this.theEmail}}</H3>
             <br>
             {{#if success}}
             <div class="alert alert-success alert-dismissible fade show">
@@ -28,23 +30,19 @@
                 <button class="close" data-dismiss="alert"><span>&times;</span></button>
             </div>
             {{/if}}
-
-            <form action="" id="login" method="POST">
+            <form action="/nufus/code_ok" id="code_ok" method="POST">
                 <div class="form-group">
-                    <label for="email">Email Id <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" name="username" id="email" placeholder="Enter your email id">
+                    <label for="code">Code <span class="text-danger">*</span></label>
+                    <input type="code" class="form-control" name="code" id="code" placeholder="Enter code from email">
                 </div>
+                <input type="hidden" name="email" value="{{ this.theEmail }}">
                 <div class="form-group">
-                    <label for="password">Password <span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter Your Password">
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="/nufus/login" class="btn btn-info btn-block">
+                    <input type="submit" value="Submit" class="btn btn-info btn-block">
                 </div>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-8">
-                            New user? Signup <a href="/nufus/signup">here</a>
+                            code expired? Request new code <a href="/nufus/requestNewCode">here</a>
                         </div>
                     </div>
                 </div>

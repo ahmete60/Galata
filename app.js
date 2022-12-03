@@ -13,7 +13,7 @@ var mongoose              = require('mongoose');
 var cognitoSrvc           = require('./services/CognitoSrvc.js');
 
 /*
-var urlMongo = env.URL_MONGO;
+var urlMongo = process.env.URL_MONGO;
 mongoose.connect(urlMongo, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.once('open', function() {
@@ -30,9 +30,9 @@ var bodyParser = require('body-parser');
 
 
 
-var indexRouter = require('./routes/index');
-var register = require('./routes/register');
-var dashboard = require('./routes/dashboard');
+var indexRoute = require('./routes/index');
+var nufusRoute = require('./routes/nufus');
+var dashboardRoute = require('./routes/dashboard');
 
 var app = express();
 
@@ -104,20 +104,24 @@ app.use(function(req, res, next) {
   next();
 })
 
-app.use('/', indexRouter);
-app.use('/register', register);
-app.use('/dashboard', dashboard);
+app.use('/', indexRoute);
+app.use('/nufus', nufusRoute);       // any render that starts with /nufus will be searched for inside  ./routes/nufus.js with "/nufus" being stripped
+app.use('/dashboard', dashboardRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  console.log(req.method, req.originalUrl, req.body);
   next(createError(404));
 });
 
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
+  // req.[method originalUrl body sessionID]
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
+  console.log(req.method, req.originalUrl, req.body);
+  console.log(err);
 
   // render the error page
   res.status(err.status || 500);

@@ -6,23 +6,21 @@ var AWS					  = require('aws-sdk');
 var request				  = require('request');
 var jwkToPem			  = require('jwk-to-pem');
 var jwt					  = require('jsonwebtoken');
+var bcrypt                = require('bcryptjs');
 //global fetch			  = require('node-fetch');
-
-/** 
- *  AWS_COGNITO_USER_POOL_ID=ap-southeaYnSpz7Zo
- *  AWS_COGNITO_CLIENT_ID=21uj81kemk1m3alcq5
- *  AWS_COGNITO_REGION=ap-ast-1
- *  AWS_COGNITO_IDENTITY_POOL_ID=ap-southeast-1:73057fab0-ce6f56928db1
- */
 
 
 const poolData = {
-    UserPoolId : "eu-central-1_opAfxkATk",   	// Your user pool id here
-    ClientId :   "6bu5iv9153c64hrm9pa9m0llab"	// Your client id here
+  //  UserPoolId : process.env.AWS_COGNITO_USER_POOL_ID,        //readme inside .env
+  //  ClientId :   process.env.AWS_COGNITO_CLIENT_ID
+    UserPoolId : "eu-central-1_opAfxkATk",  
+    ClientId :   "6bu5iv9153c64hrm9pa9m0llab"
 };
+//const pool_region = process.env.AWS_REGION;
 const pool_region = 'eu-central-1';
 
 const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
 
 
 // This function sends a verification code to the users email.  If 24 hours have passed
@@ -33,9 +31,8 @@ const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 //
 // Amazon Cognito updates the information about the user status in your user pool. To view this information, 
 // you can use the Amazon Cognito console. Or, you can use the AdminGetUser API.
-function RegisterUser(regAttrib){
-
-    userPool.signUp(theEmail, 'K(J/h6g5', regAttrib, null, function(err, result){
+function RegisterUser(theEmail, thePass, reqAttrib){
+    userPool.signUp(theEmail, thePass, reqAttrib, null, function(err, result){
         if (err) {
             console.log(err);
             return;
@@ -50,9 +47,6 @@ function requestNewCode(email) {
         Username: email,
         Pool: userPool,
     };
-    var attributeList = [];
-        attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"nickname",Value:"mad"}));
-        attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"email",Value:theEmail}));
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
 
     cognitoUser.resendConfirmationCode(function(err, res) {
