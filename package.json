@@ -2,44 +2,49 @@
   "name": "galataapp",
   "version": "0.0.2",
   "private": true,
+  "engines": {
+    "node": "16.18.1",
+    "npm": "8.5.5"
+  },
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "build": "npm i "
   },
   "dependencies": {
     "amazon-cognito-identity-js": "*",
-    "aws-sdk": "*.*",
-    "request": "*",
-    "jwk-to-pem": "2.0.5",
-    "jsonwebtoken": "8.5.1",
-    "node-fetch": "3.3.0",
-
-    "cors": "^2.8.5",         
-    "dotenv": "^16.0.3",
-    "joi": "*.*",     
-    "moment-timezone": "^0.5.31",
-    "nodemailer": "^6.4.16",
-    "axios": "^0.21.1",      
-    "uuid": "^8.3.2",
-	
     "async": "^3.2.4",
+    "aws-sdk": "*.*",
+    "axios": "^0.21.1",
     "bcryptjs": "*",
     "body-parser": "*",
     "connect-flash": "*",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
+    "dotenv": "^16.0.3",
     "express": "~4.17.1",
-    "express-handlebars": "*",
+    "express-handlebars": "^6.0.6",
     "express-messages": "*",
     "express-session": "*",
     "express-validator": "^5.3.0",
     "http-errors": "~1.6.2",
+    "i18n": "*",
+    "joi": "*.*",
+    "jsonwebtoken": "8.5.1",
+    "jwk-to-pem": "2.0.5",
+    "moment-timezone": "^0.5.31",
     "mongodb": "*",
     "mongoose": "*",
     "morgan": "~1.9.0",
+    "node-fetch": "3.3.0",
+    "nodemailer": "^6.4.16",
     "passport": "*",
     "passport-http": "*",
-    "passport-local": "*"
-    },
+    "passport-local": "*",
+    "request": "*",
+    "serve-favicon": "^2.5.0",
+    "uuid": "^8.3.2"
+  },
   "devDependencies": {
     "nodemon": "^2.0.7"
   }

@@ -1,5 +1,5 @@
 var express = require('express');
-var router = express.Router();
+var router = express.Router(); 
 
 var Student = require('../models/dashboard');
 
@@ -14,9 +14,13 @@ const redirectTologin = (req, res, next) => {
 router.get('/', redirectTologin, (req, res, next) => {
     Student.getAllStudents(req.session.passport.user, (err, students) => {
         if (err) throw err;
-        res.render('dashboard', {
-            students: students
-        });
+        res.render('dashboard', { Admin: "true", Sales: true, Firm: "GBC" });
+    });
+});
+router.get('/dashboard', redirectTologin, (req, res, next) => {
+    Student.getAllStudents(req.session.passport.user, (err, students) => {
+        if (err) throw err;
+        res.render('dashboard', { Admin: "true", Sales: true, Firm: "GBC" });
     });
 });
 router.post('/addStudent', (req, res, next) => {
@@ -46,14 +50,14 @@ router.post('/addStudent', (req, res, next) => {
         if (err) console.log(err);
     });
     req.flash('success', 'Student Added');
-    res.redirect('/dashboard');
+    res.redirect('/dashboard', { Admin: "true", Sales: true, Firm: "GBC" });
 });
 router.get('/delete/:id', (req, res, next) => {
     Student.deleteStudent(req.params.id, (err) => {
         if (err) console.log(err);
     });
     req.flash('success', 'Student Deleted');
-    res.redirect('/dashboard');
+    res.redirect('/dashboard', { Admin: "true", Sales: true, Firm: "GBC" });
 });
 
 router.post('/update', (req, res, next) => {
@@ -80,7 +84,7 @@ router.post('/update', (req, res, next) => {
         if (err) console.log(err);
     });
     req.flash('success', 'Student Updated');
-    res.redirect('/dashboard');
+    res.redirect('/dashboard', { Admin: "true", Sales: true, Firm: "GBC" });
 });
 router.get('/logout', redirectTologin, function (req, res) {
     req.session.destroy((err) => {

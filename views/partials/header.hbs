@@ -20,100 +20,84 @@
     { { {__ '%{name} uploaded %n photos to their %{album} album' count . .}}}
   </p>
 </script>
---}}
 
 v/p/header isOp: {{isOP}}
+--}}
 
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- MyTour and toggle get grouped for better mobile display -->
-        <div class="navbar-header" vertical-align:middle>
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <div class="header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                
 	    <P>
-	    <a class="list-group-item" href="/"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; MyTour</a>
-        </div>
-
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li vertical-align:middle>
-                    <P /> <!-- TODO fix this post -->
-                    <form action="/search_action/" method="post">
-                        <input type="text" name="newtask" placeholder={{{i18 "Search"}}}>
-                        <input type="submit" name="Search" value={{{i18 "Search"}}} TODO />
-                        <button type="submit" class="btn btn-primary btn-xs">{{{i18 "Search"}}}</button>
-                    </form>
-                </li>
-                <!-- { {#if user}} -->
-                <li>
-                    <a href="/shopping_cart/">
-                        <i class="fa fa-shopping_cart" aria-hidden="true"></i> {{{i18 "Shopping Cart"}}}
-                        <span class="badge">{{session.cart.totalQty}}</span>
-                    </a>
-                </li>
-                <!-- { {#if operator}} -->
-                <!-- { {else}} -->
-
-                {{#if session.passport.user}}
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> {{{i18 "Operator Tools"}}} <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        {{# if login }}  <!-- also if operator TODO -->
-                        <li><a href="/operator/account">{{{i18 "my Account"}}}</a></li>
-                        <li><a href="/user/profile">{{{i18 "my Profile"}}}</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="/operator/packageEdit/0">{{{i18 "Edit Package"}}}</a></li>
-                        <li><a href="/operator/activityEdit/0">{{{i18 "Edit Activity"}}}</a></li>
-                        <li><a href="/operator/newTimes/0">{{{i18 "Edit Schedule"}}}</a></li>
-                        <li><a href="/operator/organizeTour/0">{{{i18 "Organize Tour"}}}</a></li>
-                        <li><a href="/operator/uploadPics">{{{i18 "Manage pictures"}}}</a></li>
-                        <li><a href="/operator/invitesEdit/0/0">{{{i18 "Manage invitations"}}}</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="/operator/opFollowers">{{{i18 "Followers"}}}</a></li>
-                        {{ else }}
-                        <li><a href="/user/signin">{{{i18 "Sign in"}}}</a></li>
-                        {{/if}}
-                    </ul>
-                </li>
-                {{/if}}
-                <!-- { {/if}}-->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-user" aria-hidden="true"></i> "{{{i18 "User Management"}}}" <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        {{# if login }}
-                        <li><a href="/user/profile">{{{i18 "my Profile"}}}</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="/user/logout">{{{i18 "Logout"}}}</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="/myOrders">{{{i18 "my Orders!!"}}}</a></li>
-                        <li><a href="/myLikes">{{{i18 "my Likes"}}}</a></li>
-                        <li><a href="/myFavorites">{{{i18 "my Favorites"}}}</a></li>
-                        <li><a href="/myFollowing">{{{i18 "Following"}}}</a></li>
-                        {{ else }}
-                        <li><a href="/user/signup">{{{i18 "Sign up"}}}</a></li>
-                        <li><a href="/user/signin">{{{i18 "Sign in"}}}</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="/user/oSignup">{{{i18 "Operator Sign up"}}}</a></li>
-                        {{/if}}
-
-                    </ul>
-                </li>
-                {{!-- li>
-                    <script src="https://unpkg.com/i18next/i18next.js"></script>
-                    <div style="height: 100px">
-                        <button onclick="i18next.changeLanguage('en')"> en </button>
-                        <button onclick="i18next.changeLanguage('tr')"> tr </button>
-                        <div id="output" />
-                    </div>
-                </li --}}
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
+                <button class="navbar-toggler" data-toggle="collapse" data-target="#mobilemenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                &nbsp; &nbsp; &nbsp; <ximg src="/images/avocado3.png">
+                <a href="/dashboard" class="navbar-brand"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Avakado10</a>
+                &nbsp; &nbsp; &nbsp;
+                <a class="btn btn-outline-secondary" href="/dashboard" role="button">{{Firm}}</a>
+                <a class="btn btn-outline-secondary" href="/dashboard/staic" role="button">{{{i18 "Static Values"}}}</a>
+                <a class="btn btn-outline-secondary" href="#" role="button">{{{i18 "Locations"}}}</a>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                <form action="/search_action/" method="post">
+                    <input type="text" name="newtask" placeholder={{{i18 "Search"}}}>
+                    <button type="submit" class="btn btn-primary btn-xs">{{{i18 "Search"}}}</button>
+                </form>
+                &nbsp; &nbsp; &nbsp; 
+                <button type="submit" class="btn btn-success btn-xs">{{{i18 "Add New"}}}</button>
+                <ul class="collapse navbar-collapse navbar-nav justify-content-end" id="mobilemenu">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user" aria-hidden="true"></i> "{{{i18 "Static Values"}}}" <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <H2>x{{this.Admin}}x</H2>
+                            {{# if Admin }}
+                            <li><a href="/firm/company">{{{i18 "my Profile"}}}</a></li>
+                            <li><a href="/firm/location">{{{i18 "Logout"}}}</a></li>
+                            <li><a href="/firm/management">{{{i18 "my Orders!!"}}}</a></li>
+                            <li><a href="/firm/packages">{{{i18 "my Favorites"}}}</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/firm/packageTypes">{{{i18 "my Favorites"}}}</a></li>
+                            <li><a href="/firm/rejectReasons">{{{i18 "my Likes"}}}</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/firm/broker">{{{i18 "Following"}}}</a></li>
+                            {{/if}}
+                        </ul>
+                    </li>
+                </ul>
+                &nbsp; &nbsp; &nbsp; 
+                <ul class="collapse navbar-collapse navbar-nav justify-content-end" id="mobilemenu">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user" aria-hidden="true"></i> "{{{i18 "Sales Flow"}}}" <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {{# if Sales }}
+                            <li><a href="/sales/lead">{{{i18 "Sign up"}}}</a></li>
+                            <li><a href="/sales/contact">{{{i18 "Sign in"}}}</a></li>
+                            <li><a href="/sales/contract">{{{i18 "Operator Sign up"}}}</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/sales/packages">{{{i18 "Operator Sign up"}}}</a></li>
+                            <li><a href="/sales/renewals">{{{i18 "Operator Sign up"}}}</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/sales/renewal_R">{{{i18 "Operator Sign up"}}}</a></li>
+                            <li><a href="/sales/notClosed_R">{{{i18 "Operator Sign up"}}}</a></li>
+                            <li><a href="/sales/lateCollection_R">{{{i18 "Operator Sign up"}}}</a></li>
+                            {{/if}}
+                        </ul>
+                    </li>
+                </ul>
+                &nbsp; &nbsp; &nbsp; 
+                <ul class="collapse navbar-collapse navbar-nav justify-content-end" id="mobilemenu">
+                    <li class="nav-item"><a href="/dashboard/logout" class="nav-link">Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>

@@ -21,9 +21,11 @@
  **/
 
 
-const AWS = require("aws-sdk");
-const moment = require("moment");
-const { CustomError } = require("../helpers/error");
+const AWS                 = require("aws-sdk");
+//var mongo               = require('mongodb');
+const moment              = require("moment");
+//const {CustomError}     = require("../helpers/error");
+
 AWS.config.update({ region: "us-east-2" });
 const dynamoDB = new AWS.DynamoDB();
 ////////// return values for dynamoDB
@@ -41,7 +43,7 @@ const tableAttributeMapping = {
                   { "AttributeName":"sk",   "KeyType":"RANGE",  "AttributeType":"S" },
                   { "GAname":"g1pk",   "GSI":"HASH",  "AttributeType":"S" },
                   { "GAname":"g1sk",   "GSI":"RANGE", "AttributeType":"S" } ,
-                  { "IndexName":"byrGSI-1"}
+                  { "IndexName":"gltGSI-1"}
                 ]
   };
 
@@ -320,8 +322,9 @@ async function bulkInsertToDatabase(TableName, data) {
       },
     };
     return await dynamo_Doc.batchWrite(params).promise();
-  } catch (error) {ptitle
-    throw new CustomError(400, error.message);
+  } catch (error) {
+    //throw new CustomError(400, error.message);
+    console.log(err) 
   }
 }
 

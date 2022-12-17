@@ -4,7 +4,7 @@ var passport              = require('passport');
 var LocalStrategy         = require('passport-local').Strategy;
 //var User                  = require('../models/nufus');
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
-var cognitoSrvc           = require('../services/CognitoSrvc.js');
+var cognitoSrvc           = require('../services/cognitoSrvc.js');
 
 /* GET home page. */
 
@@ -13,13 +13,21 @@ const redirectTodashboard = (req, res, next) => {
   if(!req.session.passport) {
       next();
   } else {
-      res.redirect('/dashboard');
+      res.redirect('/dashboard', { Admin: true, Sales: true, Firm: "GBC" });
   }
 }
 
 router.get('/', redirectTodashboard, function (req, res, next) {
   res.render('index');
 });
+
+router.post('/', function (req, res, next) {  //passport.authenticate('local', { failureRedirect: '/', failureFlash: true}), 
+  // console.log("user",req.user);
+  req.flash('success', 'Login Success..');
+  res.redirect('/dashboard', { Admin: true, Sales: true, Firm: "GBC" });
+  //res.redirect('/staticWeb/index.html');
+});
+
 
 /*
 passport.serializeUser (function (user, done) {
@@ -40,7 +48,7 @@ router.post('/login', passport.authenticate('local', {
   }), function (req, res, next) {
     // console.log("user",req.user);
     req.flash('success', 'Login Success..');
-    res.redirect('/dashboard');
+    res.redirect('/dashboard', { Admin: true, Sales: true, Firm: "GBC" });
 });
 
 /*
@@ -66,6 +74,11 @@ passport.use(new LocalStrategy(function (username, password, done) {
   });
 }));
 */
+
+
+router.get('/dashboard', (req, res, next) => {
+      res.render('dashboard', { Admin: true, Sales: true, Firm: "GBC" });
+});
 
 
 module.exports = router;

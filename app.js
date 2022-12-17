@@ -2,6 +2,7 @@ var createError           = require('http-errors');
 var express               = require('express');
 var path                  = require('path');
 var cookieParser          = require('cookie-parser');
+var favicon		= require('serve-favicon');
 var logger                = require('morgan');
     async                 = require('async');
 var expressHbs            = require('express-handlebars');
@@ -10,7 +11,8 @@ var session               = require('express-session');
 var falsh                 = require('connect-flash');
 var mongo                 = require('mongodb');
 var mongoose              = require('mongoose');
-var cognitoSrvc           = require('./services/CognitoSrvc.js');
+var cognitoSrvc           = require('./services/cognitoSrvc.js');
+const i18n            		= require('i18n');
 
 /*
 var urlMongo = process.env.URL_MONGO;
@@ -41,9 +43,19 @@ app.set('views', path.join(__dirname, 'views'));
 //app.engine('expressHbs', expressHbs());
 //app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
 //var hndblrs = expressHbs.create({ extname: '.hbs',  defaultLayout: 'layout' });
-app.engine('hbs', expressHbs.engine({  extname: '.hbs',  defaultLayout: 'layout' }));
-app.set('view engine', 'hbs');
+var hbs = expressHbs.create({});
+app.engine('.hbs', expressHbs.engine({  extname: '.hbs',  defaultLayout: 'layout',
+        helpers: {
+          i18: function() { return i18n.__.apply(this, arguments); },
+          __: function() { return i18n.__.apply(this, arguments); },
+          __n: function() { return i18n.__n.apply(this, arguments); }
+} }));
+app.set('view engine', '.hbs');
 
+
+var imagesDir   = require('path').join(__dirname, '/images')
+app.use("/images", express.static(imagesDir));
+app.use(favicon(path.join(imagesDir, 'favicon.jpg')));	//or imagesDir
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -62,6 +74,37 @@ app.use(session({
 // Passport
 app.use(passpost.initialize());
 app.use(passpost.session());
+
+
+i18n.configure({
+  locales: ['en', 'tr', 'nl'],
+  defaultLocale :  'tr' ,
+  cookie: 'locale',
+  directory: "" + __dirname + "/locales"
+});
+
+app.use(i18n.init);
+
+hbs.handlebars.registerHelper('i18', function () {
+  return i18n.__.apply(this, arguments);
+});
+hbs.handlebars.registerHelper('__', function () {
+  return i18n.__.apply(this, arguments);
+});
+hbs.handlebars.registerHelper('__n', function () {
+  return i18n.__n.apply(this, arguments);
+});
+
+app.get('/tr', function (req, res) {
+  console.log("NOW TR "+ globs.isOperator);
+  res.cookie('locale', 'tr', { maxAge: 900000, httpOnly: true });
+  res.redirect('back');
+});
+app.get('/en', function (req, res) {
+  console.log("NOW EN "+ globs.isOperator);
+  res.cookie('locale', 'en', { maxAge: 900000, httpOnly: true });
+  res.redirect('back');
+});
 
 
 app.use(expresValid());
@@ -110,8 +153,9 @@ app.use('/dashboard', dashboardRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  console.log(req.method, req.originalUrl, req.body);
-  next(createError(404));
+  var errlog = "404 "+req.method+ req.originalUrl+ JSON.stringify(req.body);
+  console.log(errlog);
+  next(createError(errlog));
 });
 
 // error handler
@@ -120,12 +164,13 @@ app.use(function(err, req, res, next) {
   // req.[method originalUrl body sessionID]
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-  console.log(req.method, req.originalUrl, req.body);
+  var errlog = req.method+ " "+ req.originalUrl+ " "+ err.message;  //+ " + req.body.username;
+  console.log(errlog);
   console.log(err);
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {errlog: errlog});
 });
 
 

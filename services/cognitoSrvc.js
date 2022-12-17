@@ -8,18 +8,41 @@ var jwkToPem			  = require('jwk-to-pem');
 var jwt					  = require('jsonwebtoken');
 var bcrypt                = require('bcryptjs');
 //global fetch			  = require('node-fetch');
+var AWS_REGION = 'eu-central-1'; //process.env.GALATA_REGION;
 
+const pool_region = AWS_REGION;
+var poolData = {};
+var userPool = {};
+var CLIENT_ID  = "";
+const ssmClient = new AWS.SSM({ region: AWS_REGION });
+var getParam = { Name: 'GALATA_COGNITO_CLIENT_ID',  WithDecryption: false };
+try {       // this is the callback method also test out await-method below
+  ssmClient.getParameter( getParam, (err, data) => {
+    if (err) {
+        console.log(err);// error handling.
+    } else {
+        console.log(data.Parameter.Value);
+        CLIENT_ID  = data.Parameter.Value;
 
-const poolData = {
-  //  UserPoolId : process.env.AWS_COGNITO_USER_POOL_ID,        //readme inside .env
-  //  ClientId :   process.env.AWS_COGNITO_CLIENT_ID
-    UserPoolId : "eu-central-1_opAfxkATk",  
-    ClientId :   "6bu5iv9153c64hrm9pa9m0llab"
-};
-//const pool_region = process.env.AWS_REGION;
-const pool_region = 'eu-central-1';
-
-const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+        poolData = {
+        //  UserPoolId : process.env.AWS_COGNITO_USER_POOL_ID,        //readme inside .env
+        //  ClientId :   process.env.GALATA_COGNITO_CLIENT_ID
+            UserPoolId : "eu-central-1_opAfxkATk",  
+            ClientId :   CLIENT_ID
+        };
+        userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+    }
+  });
+  /* await method TODO
+  const response = await ssmClient.getParameter( getParam); assigning result to a const may make a difference ?!?!?
+  console.log(data.Parameter.Value);
+  CLIENT_ID  = data.Parameter.Value;
+  // ...
+  */  
+} catch (error) {
+        console.log(error);// error handling.
+}
+console.log("here");
 
 
 
@@ -288,7 +311,6 @@ function ChangePassword(username, password, newpassword) {
             },
         });
 }
-
 
 module.exports = {
   RegisterUser,

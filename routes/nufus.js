@@ -1,7 +1,7 @@
 var express               = require('express');
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 var passport              = require('passport');
-var cognitoSrvc           = require('../services/CognitoSrvc.js');
+var cognitoSrvc           = require('../services/cognitoSrvc.js');
 
 var router = express.Router();
 

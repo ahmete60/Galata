@@ -1,0 +1,119 @@
+	{{!-- TODO which routing calls layout/header so I can pass it some variables -->
+ start here:  https://stackoverflow.com/questions/25095991/how-to-set-a-variable-for-the-main-handlebars-layout-without-passing-it-to-everya -->
+
+<script src="https://cdn.jsdelivr.net/npm/roddeh-i18n@1.2.0/dist/i18n.min.js"></script>
+<script src="https://rawgit.com/components/handlebars.js/master/handlebars.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<label><input type="radio" name="lang" value="en"> English</label><br>
+<label><input type="radio" name="lang" value="tr"> Turkish</label><br>
+<label><input type="radio" name="lang" value="jp"> Japanese</label>
+//i18n.setLocale("tr");
+
+<div id="target-message"></div>
+<script id="atemplate" type="text/x-handlebars-template">
+  <p>
+    { { {__ 'Hello'}}}<br>
+    { { {i18 'Do you want to continue?'}}} { { {I18n 'Yes'}}}<br>
+    { { {i18 'Don\'t worry %{name}' . }}}<br>
+    { { {i18 'It is %n' count}}}<br>
+    { { {__ '%{name} uploaded %n photos to their %{album} album' count . .}}}
+  </p>
+</script>
+--}}
+
+v/p/header isOp: {{isOP}}
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- MyTour and toggle get grouped for better mobile display -->
+        <div class="navbar-header" vertical-align:middle>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+	    <P>
+	    <a class="list-group-item" href="/"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; MyTour</a>
+        </div>
+
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li vertical-align:middle>
+                    <P /> <!-- TODO fix this post -->
+                    <form action="/search_action/" method="post">
+                        <input type="text" name="newtask" placeholder={{{i18 "Search"}}}>
+                        <input type="submit" name="Search" value={{{i18 "Search"}}} TODO />
+                        <button type="submit" class="btn btn-primary btn-xs">{{{i18 "Search"}}}</button>
+                    </form>
+                </li>
+                <!-- { {#if user}} -->
+                <li>
+                    <a href="/shopping_cart/">
+                        <i class="fa fa-shopping_cart" aria-hidden="true"></i> {{{i18 "Shopping Cart"}}}
+                        <span class="badge">{{session.cart.totalQty}}</span>
+                    </a>
+                </li>
+                <!-- { {#if operator}} -->
+                <!-- { {else}} -->
+
+                {{#if session.passport.user}}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> {{{i18 "Operator Tools"}}} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        {{# if login }}  <!-- also if operator TODO -->
+                        <li><a href="/operator/account">{{{i18 "my Account"}}}</a></li>
+                        <li><a href="/user/profile">{{{i18 "my Profile"}}}</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/operator/packageEdit/0">{{{i18 "Edit Package"}}}</a></li>
+                        <li><a href="/operator/activityEdit/0">{{{i18 "Edit Activity"}}}</a></li>
+                        <li><a href="/operator/newTimes/0">{{{i18 "Edit Schedule"}}}</a></li>
+                        <li><a href="/operator/organizeTour/0">{{{i18 "Organize Tour"}}}</a></li>
+                        <li><a href="/operator/uploadPics">{{{i18 "Manage pictures"}}}</a></li>
+                        <li><a href="/operator/invitesEdit/0/0">{{{i18 "Manage invitations"}}}</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/operator/opFollowers">{{{i18 "Followers"}}}</a></li>
+                        {{ else }}
+                        <li><a href="/user/signin">{{{i18 "Sign in"}}}</a></li>
+                        {{/if}}
+                    </ul>
+                </li>
+                {{/if}}
+                <!-- { {/if}}-->
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user" aria-hidden="true"></i> "{{{i18 "User Management"}}}" <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        {{# if login }}
+                        <li><a href="/user/profile">{{{i18 "my Profile"}}}</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/user/logout">{{{i18 "Logout"}}}</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/myOrders">{{{i18 "my Orders!!"}}}</a></li>
+                        <li><a href="/myLikes">{{{i18 "my Likes"}}}</a></li>
+                        <li><a href="/myFavorites">{{{i18 "my Favorites"}}}</a></li>
+                        <li><a href="/myFollowing">{{{i18 "Following"}}}</a></li>
+                        {{ else }}
+                        <li><a href="/user/signup">{{{i18 "Sign up"}}}</a></li>
+                        <li><a href="/user/signin">{{{i18 "Sign in"}}}</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/user/oSignup">{{{i18 "Operator Sign up"}}}</a></li>
+                        {{/if}}
+
+                    </ul>
+                </li>
+                {{!-- li>
+                    <script src="https://unpkg.com/i18next/i18next.js"></script>
+                    <div style="height: 100px">
+                        <button onclick="i18next.changeLanguage('en')"> en </button>
+                        <button onclick="i18next.changeLanguage('tr')"> tr </button>
+                        <div id="output" />
+                    </div>
+                </li --}}
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
