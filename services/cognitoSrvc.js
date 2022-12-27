@@ -1,49 +1,77 @@
-		                    require("dotenv").config();
+//		                    require("dotenv").config();
 					async = require('async');
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 var CognitoUserPool 	  = AmazonCognitoIdentity.CognitoUserPool;
 var AWS					  = require('aws-sdk');
 var request				  = require('request');
-var jwkToPem			  = require('jwk-to-pem');
+//var jwkToPem			  = require('jwk-to-pem');
 var jwt					  = require('jsonwebtoken');
-var bcrypt                = require('bcryptjs');
+//var bcrypt                = require('bcryptjs');
 //global fetch			  = require('node-fetch');
 var AWS_REGION = 'eu-central-1'; //process.env.GALATA_REGION;
 
-const pool_region = AWS_REGION;
-var poolData = {};
-var userPool = {};
-var CLIENT_ID  = "";
-const ssmClient = new AWS.SSM({ region: AWS_REGION });
-var getParam = { Name: 'GALATA_COGNITO_CLIENT_ID',  WithDecryption: false };
-try {       // this is the callback method also test out await-method below
-  ssmClient.getParameter( getParam, (err, data) => {
-    if (err) {
-        console.log(err);// error handling.
-    } else {
-        console.log(data.Parameter.Value);
-        CLIENT_ID  = data.Parameter.Value;
 
-        poolData = {
-        //  UserPoolId : process.env.AWS_COGNITO_USER_POOL_ID,        //readme inside .env
-        //  ClientId :   process.env.GALATA_COGNITO_CLIENT_ID
-            UserPoolId : "eu-central-1_opAfxkATk",  
-            ClientId :   CLIENT_ID
-        };
-        userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+var userPool = {};
+var JWTsk = "";
+const ssmClient = new AWS.SSM({ region: AWS_REGION });			// AWS -> SSM -> paramter_Store
+    try {       // this is the callback method also test out await-method below
+        var getParam = { Name: 'GALATA_COGNITO_CLIENT_ID',  WithDecryption: false };
+        ssmClient.getParameter( getParam, (err, data) => {
+            if (err) {  console.log(err);  // error handling.  raise error
+            } else {
+                console.log(data.Parameter.Value);
+                let getValue  = data.Parameter.Value;
+
+                var poolData = {
+                //  UserPoolId : process.env.AWS_COGNITO_USER_POOL_ID,        //readme inside .env
+                //  ClientId :   process.env.GALATA_COGNITO_CLIENT_ID
+                    UserPoolId : "eu-central-1_opAfxkATk",  
+                    ClientId :   getValue
+                };
+                userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+            }
+        });
+        getParam = { Name: 'GALATA_JWT_SECRET_KEY',  WithDecryption: false };
+        ssmClient.getParameter( getParam, (err, data) => {
+            if (err) {  console.log(err);  // error handling.  raise error
+            } else {
+                console.log(data.Parameter.Value);
+                JWTsk  = data.Parameter.Value;
+            }
+        });
+    } catch (error) {
+            console.log(error.message);// error handling. raise error
     }
-  });
-  /* await method TODO
-  const response = await ssmClient.getParameter( getParam); assigning result to a const may make a difference ?!?!?
-  console.log(data.Parameter.Value);
-  CLIENT_ID  = data.Parameter.Value;
-  // ...
-  */  
-} catch (error) {
-        console.log(error);// error handling.
-}
+
 console.log("here");
 
+
+
+// ******* Below are JWT functions ***********/
+
+
+// 				This needs to be called following successfull signin or signup
+//		        That to be followed by   res.cookie('jtoken', jtoken, { httpOnly: true });
+function getJWTtoken(theEmail){
+	const jtoken = jwt.sign({
+	  email: theEmail
+	}, JWTsk, { expiresIn: '1h' });
+	return jtoken;
+}
+
+function jwtVerify(jtoken) {
+	jwt.verify(jtoken, JWTsk, function(err, decoded) {
+	  if (err) {
+		return false; 	// the JWT is invalid
+	  } else {
+		return true;	// the JWT is valid
+	  }
+	});
+}
+
+
+
+// ******* Below are cognito functions ***********/
 
 
 // This function sends a verification code to the users email.  If 24 hours have passed

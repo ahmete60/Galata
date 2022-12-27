@@ -15,8 +15,7 @@ postman/
 
 AWS*.png
 IAM5ahmet_codecommit_credentials.csv
-.zip
-sendgrid.env
+*.zip
 sendgrid.env
 cmd.exe
 

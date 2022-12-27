@@ -1,0 +1,36 @@
+<!-- this is alternate  web page only usage of i1 8next
+<script src="handelbars.js"></script>
+<script src="i1 8next.js"></script>
+<script src="handlebars-i1 8next.js"></script>
+<script> i1 8next.init() </script>
+-->
+
+{{locale}}	locale
+<a href="/" class="btn btn-orange rounded mb-4">{{{__ "text to test"}}}</a>
+<span id="onecat">{{{__n "%d cat" "%d cats" 1}}}</span>
+<span id="twocats">{{{__n "%d cat" "%d cats" 2}}}</span>
+
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+	<div id="success" class="alert alert-success" {{#if noMessages}}hidden{{/if}}>
+	    {{ successMsg }}
+	</div>
+    </div>
+</div>
+
+
+	    <!-- PackageR has data in groups of 4s hence the double #each -->
+<div class="col-sm-6 col-md-4" style="width:820px">
+	<span class="border border-success" />
+	<p class="major_group"><H3><B>{{{i18 "Inspirational Ideas"}}}</B></H3></p>
+		<div class="caption">
+			<a href="/kurum/{{this._id}}" class="btn btn-success pull-right" role="button">"{{{i18 "Add New"}}}"</a>
+		</div>
+	<table><div class="inspiration">
+		<tr><td>krmCompanyName<td>status<td>krmRootName<td>krmOfficialName<td>About<td>branch_nick<td>www<td>phone[9]<td>email[9]<td>D_custSince
+		{{# each kurumR }}
+		<tr><td>{{krmCompanyName}}<td>{{status}}<td>{{krmRootName}}<td>{{krmOfficialName}}<td>{{About}}<td>{{branch_nick}}<td>{{www}}<td>{{phone}}<td>{{email}}<td>{{D_custSince}}
+		{{/each}}
+		</td></tr>
+	</div></table>
+</div>

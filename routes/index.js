@@ -13,7 +13,7 @@ const redirectTodashboard = (req, res, next) => {
   if(!req.session.passport) {
       next();
   } else {
-      res.redirect('/dashboard', { Admin: true, Sales: true, Firm: "GBC" });
+      res.redirect('/dashboard', );//{ Admin: true, Sales: true, Firm: "GBC" }
   }
 }
 
@@ -24,7 +24,7 @@ router.get('/', redirectTodashboard, function (req, res, next) {
 router.post('/', function (req, res, next) {  //passport.authenticate('local', { failureRedirect: '/', failureFlash: true}), 
   // console.log("user",req.user);
   req.flash('success', 'Login Success..');
-  res.redirect('/dashboard', { Admin: true, Sales: true, Firm: "GBC" });
+  res.redirect('/dashboard');//, { Admin: true, Sales: true, Firm: "GBC" });
   //res.redirect('/staticWeb/index.html');
 });
 
@@ -40,7 +40,7 @@ passport.deserializeUser(function (id, done) {
     done(err, user);
   });
 });
-*/
+* /
 
 router.post('/login', passport.authenticate('local', {
     failureRedirect: '/',
@@ -48,7 +48,7 @@ router.post('/login', passport.authenticate('local', {
   }), function (req, res, next) {
     // console.log("user",req.user);
     req.flash('success', 'Login Success..');
-    res.redirect('/dashboard', { Admin: true, Sales: true, Firm: "GBC" });
+    res.redirect('/dashboard');//, { Admin: true, Sales: true, Firm: "GBC" });
 });
 
 /*
@@ -77,7 +77,7 @@ passport.use(new LocalStrategy(function (username, password, done) {
 
 
 router.get('/dashboard', (req, res, next) => {
-      res.render('dashboard', { Admin: true, Sales: true, Firm: "GBC" });
+      res.render('dashboard');//, { Admin: true, Sales: true, Firm: "GBC" });
 });
 
 

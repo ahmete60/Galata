@@ -51,6 +51,8 @@ router.post('/signup', (req, res, next) => {
         reqAttrib.push(new AmazonCognitoIdentity.CognitoUserAttribute({Name:"email",Value:email}));
         cognitoSrvc.RegisterUser(email, password, reqAttrib);
         // console.log(userData);
+		const jtoken = cognitoSrvc.getJWTtoken(email);      // done in signin this may be unnecessary
+		res.cookie('jtoken', jtoken, { httpOnly: true });
         req.flash('success', 'User Added');
         res.redirect('/nufus/code_ok/'+email);
     }
@@ -64,17 +66,17 @@ router.get('/requestNewCode/:theEmail', (req, res, next) => {
 router.get('/code_ok/:theEmail', (req, res, next) => {
     res.render('nufus/code_ok', {theEmail:req.params.theEmail});
 });
-router.post('/code_ok', passport.authenticate('local', {
-    failureRedirect: '/',
-    failureFlash: true
-  }), function (req, res, next) {
-    var theEmaşl = req.body.email;
-    // console.log("user",req.user);
-    cognitoSrvc.verifyCode(theEmail);
-    req.flash('success', 'Signup Success..');
-    res.redirect('/staticWeb/index.html');
+router.post  ('/code_ok', passport.authenticate  ('local',  {failureRedirect: '/', failureFlash: true}  ),
+    function (req, res, next)  {
+        let jwtcsrf = req.cookie.jtoken;
+        console.log(jwtcsrf);
+        console.log(jwtVerify(jwtcsrf));		// !!! prev 3 line just to check code is working not needed here
+        var theEmail = req.body.email;
+        // console.log("user",req.user);
+        cognitoSrvc.verifyCode(theEmail);
+        req.flash('success', 'Signup Success..');
+        res.redirect('/staticWeb/index.html');
 });
-
 
 router.get('/', (req, res, next) => {
     res.render('nufus/login', {});
@@ -87,6 +89,8 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true
   }), function (req, res, next) {
     // console.log("user",req.user);
+    const jtoken = cognitoSrvc.getJWTtoken(email);      // done here and after signup
+    res.cookie('jtoken', jtoken, { httpOnly: true });
     req.flash('success', 'Login Success..');
     //res.redirect('/dashboard');
     res.redirect('/staticWeb/index.html');
